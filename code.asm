@@ -1,5 +1,8 @@
+segment .data
+  lf equ 0xA ; line feed
+
 section .data
-  msg db "Hello, world!", 0xA
+  msg db "Hello, world!", lf
   msg_len equ $ - msg
 
 section .text
