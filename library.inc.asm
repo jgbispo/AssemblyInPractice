@@ -7,7 +7,8 @@ segment .data
   sys_exit  equ 0x1  ; Codigo de chamada para finalizar
   sys_read  equ 0x3  ; Operacao de leitura
   sys_write equ 0x4  ; Operacao de escrita
-  ; EBX
+ 
+ ; EBX
   ret_exit equ 0x0  ; Operacao realizada com Sucesso
   stdin    equ 0x0  ; Entrada padrao
   stdout  equ 0x1  ; Saida padrao
