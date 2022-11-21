@@ -1,7 +1,9 @@
-NOME = app
+NAME = convert
 
-all: $(NOME).o
-	ld -s -o $(NOME) $(NOME).o
+all: $(NAME).o
+	ld -s -o ./build/$(NAME) ./build/$(NAME).o
+	rm ./build/$(NAME).o
 
-%.o: code.asm
-	nasm -f elf64 code.asm -o app.o
+%.o: %.asm
+	nasm -f elf64 $< -o ./build/$(NAME).o
+	nasm -f win64 $< -o ./build/$(NAME).exe
