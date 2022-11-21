@@ -29,4 +29,15 @@
 |     jle     | '<='  |
 |     jne     | '!='  |
 
+## GOTO and GOSUB
+
+| command | Use |
+|---------|-----|
+| jmp     | Jump to a point and don't come back |
+| call    | Jump to a point and back |
+| ret     | Command resposible for signaling the "call" when it should return |
+
+
+
+
 > [Course link](https://www.youtube.com/watch?v=JL0P5Jv1oVU)
