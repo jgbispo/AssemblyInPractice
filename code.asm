@@ -8,13 +8,19 @@ segment .data
   
   return  equ 0x0 ; return sucessffuly
   stdin   equ 0x0 ; standard input
-  stout   equ 0x1 ; standard output
+  stdout   equ 0x1 ; standard output
 
-  go equ 0x80
+  go equ 0x80 ; seed info to SO 
 
 section .data
-  hello db "Hello, world!", lf, null
+  input_name db "Take your name: "
+  input_name_len equ $ - input_name
+
+  hello db "Hello, "
   hello_len equ $ - hello
+
+section .bss
+  name resb 1
 
 section .text
 
@@ -22,9 +28,27 @@ global _start
 
 _start:
   mov eax, write
-  mov ebx, stout
+  mov ebx, stdout
+  mov ecx, input_name
+  mov edx, input_name_len
+  int go
+
+  mov eax, read
+  mov ebx, stdin
+  mov ecx, name
+  mov edx, 0xE
+  int go
+
+  mov eax, write
+  mov ebx, stdout
   mov ecx, hello
   mov edx, hello_len
+  int go
+
+  mov eax, write
+  mov ebx, stdout
+  mov ecx, name
+  mov edx, 0xE
   int go
 
 _exit:
