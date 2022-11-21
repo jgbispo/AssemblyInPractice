@@ -18,4 +18,15 @@
 | rsi	| esi | Past arguments 	|
 | r8 to r15 | r8d to r15d | Used in current moves during programming.|
 
+## Comparators
+
+| Comparator  |  Use  |
+|-------------|-------|
+|     je      | '='   |
+|     jg      | '>'   |
+|     jge     | '>='  |
+|     jl      | '<'   |
+|     jle     | '<='  |
+|     jne     | '!='  |
+
 > [Course link](https://www.youtube.com/watch?v=JL0P5Jv1oVU)
