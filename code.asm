@@ -13,45 +13,37 @@ segment .data
   go equ 0x80 ; seed info to SO 
 
 section .data
-  input_name db "Take your name: "
-  input_name_len equ $ - input_name
+  x dd 20
+  y dd 20
 
-  hello db "Hello, "
-  hello_len equ $ - hello
+  x_y db "X greater than Y", lf, null
+  x_len equ $ - x_y
 
-section .bss
-  name resb 1
+  y_x db "Y greater than X", lf, null
+  y_len equ $ - y_x
 
 section .text
 
 global _start
 
 _start:
+  mov eax, dword[x]
+  mov ebx, dword[y]
+  cmp eax, ebx
+  jge _xGreaterThanY
+  mov ecx, y_x
+  mov edx, y_len
+  jmp _end
+  
+_xGreaterThanY:
+  mov ecx, x_y
+  mov edx, x_len
+
+_end:
   mov eax, write
   mov ebx, stdout
-  mov ecx, input_name
-  mov edx, input_name_len
   int go
 
-  mov eax, read
-  mov ebx, stdin
-  mov ecx, name
-  mov edx, 0xE
-  int go
-
-  mov eax, write
-  mov ebx, stdout
-  mov ecx, hello
-  mov edx, hello_len
-  int go
-
-  mov eax, write
-  mov ebx, stdout
-  mov ecx, name
-  mov edx, 0xE
-  int go
-
-_exit:
   mov eax, exit
   mov ebx, return
   int go
