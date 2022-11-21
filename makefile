@@ -1,4 +1,4 @@
-NAME = convert
+NAME = code
 
 all: $(NAME).o
 	ld -s -o ./build/$(NAME) ./build/$(NAME).o
