@@ -2,10 +2,10 @@
 %include "library.inc.asm"
 
 section .data
-  title: db lf, "+====================+", lf, "| Calculador |", lf, "+====================+", lf, null
+  title: db lf, "+=======================+", lf, "|", 0x9, "Calculador",0x9, "|", lf, "+=======================+", lf, null
   ; Label from calc
-  label_value_one: db lf, "Take first number: ", null
-  label_value_two: db lf, "Take second number: ", null
+  label_value_one: db "First number : ", null
+  label_value_two: db "Second number: ", null
 
   ; Label from opc
   label_opc_sum:  db lf, "1 - Addition", lf, null
@@ -39,6 +39,25 @@ section .text
     ; Print title
     mov ecx, title
     call _print
+ 
+ ; get values
+    mov ecx, label_value_one
+    call _print
+    mov eax, sys_read
+    mov ebx, stdin
+    mov ecx, value_one
+    mov edx, 0x3
+    int sys_go
+
+    mov ecx, label_value_two
+    call _print
+    mov eax, sys_read
+    mov ebx, stdin
+    mov ecx, value_two
+    mov edx, 0x3
+    int sys_go
+
+
  
   ; OPTIONS -----------------------------
     
@@ -77,7 +96,7 @@ section .text
     jg _error
     cmp ah, 1
     jl _error
-
+ 
     ; verify option choose
     cmp ah, 1
     je _addition

@@ -13,6 +13,7 @@ segment .data
   stdin     equ 0x0  ; Entrada padrao
   stdout    equ 0x1  ; Saida padrao
 
+
 segment .text
 
 _print:
