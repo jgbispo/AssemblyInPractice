@@ -15,8 +15,12 @@ segment .data
 
 segment .text
 
-_outputString:
-  
+_print:
+  call _calcSizeString
+  mov eax, sys_write
+  mov ebx, stdout
+  int sys_go
+  ret
 
 _calcSizeString:
   mov edx, ecx
