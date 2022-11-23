@@ -27,10 +27,14 @@ section .data
   ;; Default
   sizeValues dd 0xA 
 
+
 section .bss
   value_one resb 1
   value_two resb 1
   value_opc resb 1
+  value_result resb 1
+  
+  buffer resb 0xA
 
 section .text
   global _start
@@ -57,8 +61,6 @@ section .text
     mov edx, 0x3
     int sys_go
 
-
- 
   ; OPTIONS -----------------------------
     
     ; Addition
@@ -106,13 +108,31 @@ section .text
     je _multiplication
     cmp ah, 4
     je _division
- 
+  
   ; Functions
   _addition:
     mov ecx, process_sum
     call _print
-    jmp _end
 
+    xor eax, eax
+    xor ebx, ebx 
+    
+    lea esi, [value_one]
+    mov ecx, 0x1
+    call _string_to_int
+
+    lea esi, [value_one]
+    mov ecx, 0x1
+    call _string_to_int2
+    add eax, ebx
+
+    lea esi, [buffer]
+    call _int_to_string
+    mov ecx, buffer
+    call _print
+
+    jmp _end
+  
   _subtraction:
     mov ecx, process_sub
     call _print
@@ -133,7 +153,7 @@ section .text
     mov ecx, msg_error
     call _print
     jmp _end
-  
+
   _getOpt:
     mov eax, sys_read
     mov ebx, stdin
@@ -141,8 +161,49 @@ section .text
     mov edx, 0x1
     int sys_go
     ret
+  
+  _string_to_int:
+    xor ebx, ebx
+  .next_char:
+    movzx eax, byte[esi]
+    inc esi
+    sub al, "0"
+    imul ebx, 10
+    add ebx, eax
+    loop .next_char
+    mov eax, ebx
+    ret
+  
+  _string_to_int2:
+    xor ebx, ebx
+    .next_char:
+      movzx eax, byte[esi]
+      inc esi
+      sub al, "0"
+      imul ebx, 10
+      add ebx, eax
+      loop .next_char
+      ret
 
- _end:
+  _int_to_string:
+    add esi, 9
+    add byte[esi], 0
+    add ebx, 10
+    .next_char:
+      xor edx, edx
+      div ebx
+      add dl, '0'
+      dec esi
+      mov [esi], dl
+      test eax, eax
+      jnz .next_char
+      mov eax, esi
+      ret
+
+  _end:
+    mov ecx, msg_end
+    call _print
+
     mov eax, sys_exit
     mov ebx, ret_exit
     int sys_go
